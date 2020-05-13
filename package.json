@@ -1,0 +1,27 @@
+{
+  "name": "gg-back",
+  "description": "backend part of gg",
+  "version": "0.1.0",
+  "private": true,
+  "author": "qcp",
+
+  "license": "ISC", 
+  "repository": "github:qcp/gg-back", 
+  "main": "main.js",
+
+  "scripts": {
+    "start": "node main.js",
+    "debug": "node --inspect-brk main.js"
+  },
+  
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "googleapis": "^48.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.4.1",
+    "multer": "^1.4.2",
+    "node-fetch": "^2.6.0"
+  }
+}
