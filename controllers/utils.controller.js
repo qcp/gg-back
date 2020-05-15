@@ -95,6 +95,8 @@ module.exports.sendEmailSecret = (request, response) => {
             expiresIn = (new Date(inquirer.general.finishDateReviewers) - new Date()) / 1000 + 86400;
         else if (recepient.role == 'examinee')
             expiresIn = (new Date(inquirer.general.finishDateExaminees) - new Date()) / 1000 + 86400;
+        if (isNaN(expiresIn))
+            expiresIn = new Date().getMilliseconds() / 1000 + 86400;
 
         const newToken = jwt.sign({ id: recepient._id, role: recepient.role, inquirerId: inquirer._id }, process.env.JWT_SECRET, { expiresIn: Math.round(expiresIn) });
 
