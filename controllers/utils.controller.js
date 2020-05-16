@@ -43,7 +43,7 @@ module.exports.downloadFile = (request, response) => {
             if (!file) throw 'Not found';
 
             response.set('content-type', file.metadata.mimetype);
-            response.set('content-disposition', 'attachment; filename*=utf-8\'\'' + encodeURI(file.filename));
+            response.set('content-disposition', 'inline; filename*=utf-8\'\'' + encodeURI(file.filename));
             response.set('accept-ranges', 'bytes');
 
             let downloadStream = request.app.locals.bucket.openDownloadStream(file._id);
