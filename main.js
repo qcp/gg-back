@@ -26,7 +26,7 @@ mongo.init(app).then(() => {
 });
 
 app.get("/", (request, response) => {
-    response.sendStatus(200);
+    response.redirect(process.env.FRONT_ENDPOINT);
 })
 
 app.get('/google/url', auth.googleUrl)

@@ -29,7 +29,8 @@ module.exports.getInquirer = (request, response) => {
         if (res[1]) {
             result.examineeId = res[1].examineeId;
             result.content.forEach(criteria => {
-                criteria.answer = res[1].content.find(o => o._id.equals(criteria._id)).answer;
+                const content = res[1].content.find(o => o._id.equals(criteria._id));
+                criteria.answer = content ? content.answer : null;
             });
         }
         return result;
