@@ -16,7 +16,7 @@ module.exports.googleCallback = (request, response) => {
                 { $set: res },
                 { upsert: true, returnOriginal: false });
         }).then(res => {
-            const token = jwt.sign({ id: res.value._id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: 86400 });            
+            const token = jwt.sign({ id: res.value._id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: 86400 });
             response.redirect(`${process.env.FRONT_ENDPOINT}/login?secret=${token}`);
             console.debug('googleCallback', token);
         }).catch(err => {
@@ -26,11 +26,12 @@ module.exports.googleCallback = (request, response) => {
 }
 
 module.exports.signin = (request, response) => {
-    request.app.locals.users.findOne(
-        { _id: ObjectId(request.userId)  }
-    ).then(res => {
+    request.app.locals.users.findOneAndUpdate(
+        { _id: ObjectId(request.userId) },
+        { $set: { 'metadata.lastLogin': new Date().toISOString() } }
+    ).then(res => res.value).then(res => {
         if (!res) throw "Non valid secret";
-        if(res.role != request.userRole) throw "Broken secret";
+        if (res.role != request.userRole) throw "Broken secret";
         response.json({ status: "OK", user: res });
         console.debug('signin', res);
     }).catch(err => {
