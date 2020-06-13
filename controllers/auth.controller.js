@@ -13,7 +13,7 @@ module.exports.googleCallback = (request, response) => {
         .then(res => {
             return request.app.locals.users.findOneAndUpdate(
                 { 'google.id': res.google.id },
-                { $set: res },
+                [{ $addFields: res }],
                 { upsert: true, returnOriginal: false });
         }).then(res => {
             const token = jwt.sign({ id: res.value._id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: 86400 });
