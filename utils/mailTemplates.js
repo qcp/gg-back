@@ -1,11 +1,16 @@
+function enc(text){
+    return `=?utf-8?B?${Buffer.from(text).toString('base64')}?=`;
+}
+
 module.exports.resendEmail = function (data) {
     const subject = 'Your secret for GG';
     const message = [
         `From: GG APP <${data.fromEmail}>`,
-        `To: ${data.toName} <${data.toEmail}>`,
+        `To: ${enc(data.toName)} <${data.toEmail}>`,
         'Content-Type: text/html; charset=utf-8',
         'MIME-Version: 1.0',
         `Subject: =?utf-8?B?${Buffer.from(subject).toString('base64')}?=`,
+        `Subject: ${enc(subject)}`,
         '',
         `Hello ${data.toName}!`,
         '<br>',
