@@ -9,7 +9,6 @@ module.exports.resendEmail = function (data) {
         `To: ${enc(data.toName)} <${data.toEmail}>`,
         'Content-Type: text/html; charset=utf-8',
         'MIME-Version: 1.0',
-        `Subject: =?utf-8?B?${Buffer.from(subject).toString('base64')}?=`,
         `Subject: ${enc(subject)}`,
         '',
         `Hello ${data.toName}!`,
