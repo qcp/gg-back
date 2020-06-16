@@ -7,7 +7,9 @@ module.exports.updateInquirer = (request, response) => {
         { upsert: true, returnOriginal: false })
         .then(res => {
             let criteriasId = res.value.content.map(criteria => criteria._id);
-            updateReviewerNext(request.app.locals, res.value.inquirerId, res.value.examineeId, criteriasId);
+            if (request.body.state == 'done') {
+                updateReviewerNext(request.app.locals, res.value.inquirerId, res.value.examineeId, criteriasId);
+            }
             return res;
         }).then(res => {
             response.json({ status: "OK" });
@@ -27,6 +29,7 @@ module.exports.getInquirer = (request, response) => {
     ]).then(res => {
         let result = res[0];
         if (res[1]) {
+            result.state = res[1].state;
             result.examineeId = res[1].examineeId;
             result.content.forEach(criteria => {
                 const content = res[1].content.find(o => o._id.equals(criteria._id));

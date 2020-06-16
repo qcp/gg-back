@@ -1,4 +1,5 @@
 const { getParameters } = require('../utils/aggregations');
+const { getDashboard } = require('../utils/aggregations');
 
 module.exports.updateInquirer = (request, response) => {
     request.app.locals.inquirers.updateOne(
@@ -138,8 +139,7 @@ module.exports.getReviewers = (request, response) => {
 
 
 module.exports.getDashboard = (request, response) => {
-    request.app.locals.inquirers.find({ 'metadata.createUserId': request.userId },
-        { projection: { content: 0, examinees: 0 } }).toArray()
+    request.app.locals.inquirers.aggregate(getDashboard(request.userId)).toArray()
         .then(res => {
             response.json({ status: "OK", dashboard: res });
             console.debug('getDashboard', res);
