@@ -17,7 +17,7 @@ module.exports.updateAnswer = (request, response) => {
 
 module.exports.getAnswers = (request, response) => {
     request.app.locals.inquirers.aggregate(getCriterias(request.query._id))
-        .match({ $expr: { $in: [request.userId, '$content.reviewerNext.users'] } })
+        .match({ $expr: { $and: [{ $eq: ['$answerState', 'done'] }, { $in: [request.userId, '$content.reviewerNext.users'] }] } })
         .lookup({ from: 'users', localField: 'content.decisionChain.reviewerId', foreignField: '_id', as: 'reviewers' })
         .lookup({ from: 'apis', localField: 'content.decisionChain.reviewerId', foreignField: '_id', as: 'apis' }).toArray()
         .then(res => {

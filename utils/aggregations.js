@@ -19,6 +19,7 @@ module.exports.getCriterias = (inquirerId) => [
   { '$unwind': { 'path': '$answer', 'preserveNullAndEmptyArrays': true } },
   {
     '$addFields': {
+      'answerState': '$answer.state', 
       'examineeId': '$answer.examineeId',
       'content': { '$mergeObjects': ['$content', '$answer.content'] }
     }
@@ -32,7 +33,7 @@ module.exports.getCriterias = (inquirerId) => [
     }
   },
   { '$unwind': { 'path': '$examinee' } },
-  { '$project': { 'content': 1, 'examinee': 1 } }
+  { '$project': { 'content': 1, 'examinee': 1, 'answerState': 1 } }
 ]
 
 module.exports.getParameters = (inquirerId) => [
